@@ -1,0 +1,77 @@
+.fmodal-wrapper {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.fmodal-wrapper .fmodal-container {
+    width: 600px;
+    font-family: Verdana, sans-serif;
+    -webkit-box-shadow: 0px 0px 7px 0px #000000;
+    box-shadow: 0px 0px 7px 0px #000000;
+    border-radius: 20px;
+}
+
+.fmodal-wrapper .fmodal-container .fmodal-header {
+    width: 100%;
+    padding: 10px 0;
+    background: #123264;
+    color: #FFFFFF;
+    text-align: center;
+    font-weight: 500;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    position: relative;
+}
+
+.fmodal-wrapper .fmodal-container .fmodal-header .fmodal-close {
+    position: absolute;
+    right: 20px;
+    top: 11px;
+    border: 1px solid #FFFFFF;
+    border-radius: 100%;
+    font-size: 10px;
+    padding: 1px 6px 2px 5px;
+}
+
+.fmodal-wrapper .fmodal-container .fmodal-header .fmodal-close:hover {
+    cursor: pointer;
+}
+
+.fmodal-wrapper .fmodal-container .fmodal-body {
+    background: #FFFFFF;
+    padding: 25px 30px;
+}
+
+.fmodal-wrapper .fmodal-container .fmodal-footer {
+    background: #FFFFFF;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding: 10px 30px;
+}
+
+.fmodal-wrapper .fmodal-container .fmodal-button {
+    background: #123264;
+    color: #FFFFFF;
+    padding: 5px 25px;
+    border: none;
+    border-radius: 20px;
+    min-width: 100px;
+}
+
+.fmodal-wrapper .fmodal-container .fmodal-button:hover {
+    cursor: pointer;
+    -webkit-box-shadow: 0px 0px 5px 0px #000000;
+    box-shadow: 0px 0px 5px 0px #000000;
+}
+
+.fmodal-wrapper .fmodal-container .fmodal-button.fmodal-accept {
+    float: right;
+}
