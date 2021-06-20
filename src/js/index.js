@@ -96,6 +96,7 @@ class FrostModals {
         container.appendChild(header);
         container.appendChild(content);
         container.appendChild(footer);
+        FrostModals.makeDraggable(container);
 
         wrapper.classList.add('fmodal-wrapper')
         wrapper.dataset.id = settings.id;
@@ -118,6 +119,42 @@ class FrostModals {
                 color: settings.header ? settings.header.color : null,
             }
         };
+    }
+
+    static makeDraggable(container) {
+        let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        if (container.querySelector('.fmodal-header')) {
+            container.querySelector('.fmodal-header').onmousedown = dragMouseDown;
+        } else {
+            container.onmousedown = dragMouseDown;
+        }
+
+        function dragMouseDown(e) {
+            e = e || window.event;
+            e.preventDefault();
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            e = e || window.event;
+            e.preventDefault();
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            container.style.top = (container.offsetTop - pos2) + "px";
+            container.style.left = (container.offsetLeft - pos1) + "px";
+            container.style.position = 'absolute';
+            container.parentElement.style.display = 'block';
+        }
+
+        function closeDragElement() {
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
     }
 }
 
