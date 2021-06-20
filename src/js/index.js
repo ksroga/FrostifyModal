@@ -1,10 +1,13 @@
 class FrostModals {
 
-    preparedSettings = [];
-    lastModalId = 0;
+    constructor() {
+        this.preparedSettings = [];
+        this.lastModalId = 0;
+    }
 
     show()
     {
+        var test = 0;
         document.body.appendChild(FrostModals.prepareModal(this.preparedSettings[this.lastModalId]));
         return this;
     }
@@ -13,16 +16,19 @@ class FrostModals {
     {
         modalId = modalId || this.preparedSettings[this.lastModalId].id;
         let close = true,
-            useCancelCallback = useCallback
-                && typeof this.preparedSettings[modalId] !== 'undefined'
-                && this.preparedSettings[modalId].onCancel;
+            useCancelCallback = useCallback &&
+                typeof this.preparedSettings[modalId] !== 'undefined' &&
+                this.preparedSettings[modalId].onCancel;
 
         if (useCancelCallback && this.preparedSettings[modalId].onCancel() === false) {
             close = false;
         }
 
         if (close) {
-            document.querySelector(`.fmodal-wrapper[data-id="${modalId}"]`).remove();
+            let wrapper = document.querySelector(`.fmodal-wrapper[data-id="${modalId}"]`);
+            wrapper.style.animation = 'fadeOut 0.25s ease 0s 1 normal forwards';
+            wrapper.style.opacity = '0';
+            setTimeout(() => wrapper.remove(), 250);
         }
 
         return this;
@@ -32,8 +38,8 @@ class FrostModals {
     {
         modalId = modalId || this.preparedSettings[this.lastModalId].id;
         let close = true,
-            useCancelCallback = typeof this.preparedSettings[modalId] !== 'undefined'
-                && this.preparedSettings[modalId].onOk;
+            useCancelCallback = typeof this.preparedSettings[modalId] !== 'undefined' &&
+                this.preparedSettings[modalId].onOk;
 
         if (useCancelCallback && this.preparedSettings[modalId].onOk() === false) {
             close = false;
@@ -49,7 +55,7 @@ class FrostModals {
     set(settings)
     {
         this.lastModalId++;
-        this.preparedSettings[this.lastModalId] = this.#prepareModalSettings(settings);
+        this.preparedSettings[this.lastModalId] = this.prepareModalSettings(settings);
         return this;
     }
 
@@ -69,11 +75,12 @@ class FrostModals {
         closeButton.innerText = 'X';
 
         header.classList.add('fmodal-header');
+        header.classList.toggle('fmodal-draggable', settings.isDraggable);
         header.innerHTML = settings.title;
         header.style.background = settings.header.background || header.style.background;
         header.style.color = settings.header.color || header.style.color;
         header.ondragover = (event) => FrostModals.dragOver(event);
-        if (settings.closeButton) {
+        if (settings.closeButton === true) {
             header.appendChild(closeButton);
         }
 
@@ -96,16 +103,18 @@ class FrostModals {
         container.appendChild(header);
         container.appendChild(content);
         container.appendChild(footer);
-        FrostModals.makeDraggable(container);
+        if (settings.isDraggable) {
+            FrostModals.makeDraggable(container);
+        }
 
-        wrapper.classList.add('fmodal-wrapper')
+        wrapper.classList.add('fmodal-wrapper');
         wrapper.dataset.id = settings.id;
         wrapper.appendChild(container);
 
         return wrapper;
     }
 
-    #prepareModalSettings(settings)
+    prepareModalSettings(settings)
     {
         return {
             id: this.lastModalId,
@@ -113,7 +122,8 @@ class FrostModals {
             content: settings.content || '',
             onOk: settings.onOk || '',
             onCancel: settings.onCancel || null,
-            closeButton: settings.closeButton || true,
+            closeButton: settings.closeButton !== false,
+            isDraggable: settings.isDraggable !== false,
             header: {
                 background: settings.header ? settings.header.background : null,
                 color: settings.header ? settings.header.color : null,

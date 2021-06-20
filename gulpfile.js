@@ -3,10 +3,16 @@ const concat = require('gulp-concat');
 const uglify = require('gulp-uglify');
 const minify = require('gulp-minify-css');
 const babel = require('gulp-babel');
+const jshint = require('gulp-jshint');
 
+const jsHintConfig = {
+    esversion: 6
+};
 
 gulp.task('js', function() {
     return gulp.src('src/js/index.js')
+        .pipe(jshint(jsHintConfig))
+        .pipe(jshint.reporter('default'))
         .pipe(babel({presets: ['@babel/env']}))
         .pipe(concat('FrostModals.min.js'))
         .pipe(uglify())
