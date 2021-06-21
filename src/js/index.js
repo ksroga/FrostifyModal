@@ -1,4 +1,4 @@
-class FrostModals {
+class FrostifyModals {
 
     constructor() {
         this.preparedSettings = [];
@@ -7,8 +7,7 @@ class FrostModals {
 
     show()
     {
-        var test = 0;
-        document.body.appendChild(FrostModals.prepareModal(this.preparedSettings[this.lastModalId]));
+        document.body.appendChild(FrostifyModals.prepareModal(this.preparedSettings[this.lastModalId]));
         return this;
     }
 
@@ -25,10 +24,7 @@ class FrostModals {
         }
 
         if (close) {
-            let wrapper = document.querySelector(`.fmodal-wrapper[data-id="${modalId}"]`);
-            wrapper.style.animation = 'fadeOut 0.25s ease 0s 1 normal forwards';
-            wrapper.style.opacity = '0';
-            setTimeout(() => wrapper.remove(), 250);
+            FrostifyModals.closeModal(modalId);
         }
 
         return this;
@@ -46,7 +42,7 @@ class FrostModals {
         }
 
         if (close) {
-            document.querySelector(`.fmodal-wrapper[data-id="${modalId}"]`).remove();
+            FrostifyModals.closeModal(modalId);
         }
 
         return this;
@@ -57,6 +53,37 @@ class FrostModals {
         this.lastModalId++;
         this.preparedSettings[this.lastModalId] = this.prepareModalSettings(settings);
         return this;
+    }
+
+    prepareModalSettings(settings)
+    {
+        return {
+            id: this.lastModalId,
+            title: settings.title ?? '',
+            content: settings.content ?? '',
+            onOk: settings.onOk ?? '',
+            onCancel: settings.onCancel ?? null,
+            closeButton: settings.closeButton !== false,
+            isDraggable: settings.isDraggable !== false,
+            reverseButtons: settings.reverseButtons === true,
+            labels: {
+                ok: settings.labels?.ok ?? 'Okay',
+                cancel: settings.labels?.cancel ?? 'Cancel',
+            },
+            containerStyles: settings.containerStyles ?? {},
+            headerStyles: settings.headerStyles ?? {},
+            bodyStyles: settings.bodyStyles ?? {},
+            footerStyles: settings.footerStyles ?? {},
+            buttonsStyles: settings.buttonsStyles ?? {},
+        };
+    }
+
+    static closeModal(modalId)
+    {
+        let wrapper = document.querySelector(`.fmodal-wrapper[data-id="${modalId}"]`);
+        wrapper.style.animation = 'fadeOut 0.25s ease 0s 1 normal forwards';
+        wrapper.style.opacity = '0';
+        setTimeout(() => wrapper.remove(), 250);
     }
 
     static prepareModal(settings)
@@ -77,34 +104,52 @@ class FrostModals {
         header.classList.add('fmodal-header');
         header.classList.toggle('fmodal-draggable', settings.isDraggable);
         header.innerHTML = settings.title;
-        header.style.background = settings.header.background || header.style.background;
-        header.style.color = settings.header.color || header.style.color;
-        header.ondragover = (event) => FrostModals.dragOver(event);
+        header.ondragover = (event) => FrostifyModals.dragOver(event);
         if (settings.closeButton === true) {
             header.appendChild(closeButton);
+        }
+        for (const [key, value] of Object.entries(settings.headerStyles)) {
+            header.style[key] = value;
         }
 
         content.classList.add('fmodal-body');
         content.innerHTML = settings.content;
+        for (const [key, value] of Object.entries(settings.bodyStyles)) {
+            content.style[key] = value;
+        }
 
         cancelButton.classList.add('fmodal-button', 'fmodal-cancel');
         cancelButton.onclick = () => FrostModal.close(settings.id);
-        cancelButton.innerHTML = 'Cancel';
+        cancelButton.innerHTML = settings.labels.cancel;
 
         submitButton.classList.add('fmodal-button', 'fmodal-accept');
         submitButton.onclick = () => FrostModal.submit(settings.id);
-        submitButton.innerHTML = 'Okay';
+        submitButton.innerHTML = settings.labels.ok;
+        for (const [key, value] of Object.entries(settings.buttonsStyles)) {
+            cancelButton.style[key] = value;
+            submitButton.style[key] = value;
+        }
+        if (settings.reverseButtons) {
+            cancelButton.style.float = 'right';
+            submitButton.style.float = 'none';
+        }
 
         footer.classList.add('fmodal-footer');
         footer.appendChild(cancelButton);
         footer.appendChild(submitButton);
+        for (const [key, value] of Object.entries(settings.footerStyles)) {
+            footer.style[key] = value;
+        }
 
         container.classList.add('fmodal-container');
         container.appendChild(header);
         container.appendChild(content);
         container.appendChild(footer);
+        for (const [key, value] of Object.entries(settings.containerStyles)) {
+            footer.style[key] = value;
+        }
         if (settings.isDraggable) {
-            FrostModals.makeDraggable(container);
+            FrostifyModals.makeDraggable(container);
         }
 
         wrapper.classList.add('fmodal-wrapper');
@@ -112,23 +157,6 @@ class FrostModals {
         wrapper.appendChild(container);
 
         return wrapper;
-    }
-
-    prepareModalSettings(settings)
-    {
-        return {
-            id: this.lastModalId,
-            title: settings.title || '',
-            content: settings.content || '',
-            onOk: settings.onOk || '',
-            onCancel: settings.onCancel || null,
-            closeButton: settings.closeButton !== false,
-            isDraggable: settings.isDraggable !== false,
-            header: {
-                background: settings.header ? settings.header.background : null,
-                color: settings.header ? settings.header.color : null,
-            }
-        };
     }
 
     static makeDraggable(container) {
@@ -168,4 +196,4 @@ class FrostModals {
     }
 }
 
-const FrostModal = new FrostModals();
+const FrostModal = new FrostifyModals();

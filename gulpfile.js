@@ -6,7 +6,7 @@ const babel = require('gulp-babel');
 const jshint = require('gulp-jshint');
 
 const jsHintConfig = {
-    esversion: 6
+    esversion: 11
 };
 
 gulp.task('js', function() {
