@@ -63,7 +63,7 @@ class FrostifyModals {
             content: settings.content ?? '',
             onOk: settings.onOk ?? '',
             onCancel: settings.onCancel ?? null,
-            closeButton: settings.closeButton !== false,
+            isClosable: settings.isClosable !== false,
             isDraggable: settings.isDraggable !== false,
             reverseButtons: settings.reverseButtons === true,
             labels: {
@@ -105,7 +105,7 @@ class FrostifyModals {
         header.classList.toggle('fmodal-draggable', settings.isDraggable);
         header.innerHTML = settings.title;
         header.ondragover = (event) => FrostifyModals.dragOver(event);
-        if (settings.closeButton === true) {
+        if (settings.isClosable === true) {
             header.appendChild(closeButton);
         }
         for (const [key, value] of Object.entries(settings.headerStyles)) {
@@ -155,6 +155,14 @@ class FrostifyModals {
         wrapper.classList.add('fmodal-wrapper');
         wrapper.dataset.id = settings.id;
         wrapper.appendChild(container);
+        if (settings.isClosable === true) {
+            wrapper.onclick = () => FrostifyModals.closeModal(settings.id);
+            document.onkeydown = event => {
+                if (event.key === 'Escape') {
+                    FrostifyModals.closeModal(settings.id);
+                }
+            };
+        }
 
         return wrapper;
     }
