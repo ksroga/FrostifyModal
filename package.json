@@ -1,21 +1,21 @@
 {
-  "name": "FrostifyModal",
+  "name": "frostify-modal",
   "version": "1.0.0",
-  "description": "",
+  "description": "Ultra lightweight, dependency-free javascript library for creating dynamic & full-customizable modal dialogs.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ksroga/FrostModals.git"
+    "url": "git+https://github.com/ksroga/FrostifyModal.git"
   },
   "author": "Konrad Sroga",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ksroga/FrostModals/issues"
+    "url": "https://github.com/ksroga/FrostifyModal/issues"
   },
-  "homepage": "https://github.com/ksroga/FrostModals#readme",
+  "homepage": "https://github.com/ksroga/FrostifyModal#readme",
   "devDependencies": {
     "gulp": "^4.0.2",
     "gulp-minify": "^3.1.0"

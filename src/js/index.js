@@ -204,4 +204,4 @@ class FrostifyModals {
     }
 }
 
-const FrostModal = new FrostifyModals();
+const FrostifyModal = new FrostifyModals();

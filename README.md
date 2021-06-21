@@ -1,35 +1,57 @@
-<div style="text-align: center; border-bottom: 1px solid #21262D;padding-bottom:15px;">
-<div style="font-size: 20px;margin-bottom:20px;">FrostifyModal.js</div>
-<div>Ultra lightweight, dependency-free javascript library for creating dynamic & full-customizable modal dialogs.</div>
-</div>
+<p align="center"></p>
+<h3 align="center">
+  FrostifyModal.js
+</h3>
+
+<p align="center">
+  <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener">
+    <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License">
+  </a>
+</p>
+
+<p align="center">
+Ultra lightweight, dependency-free javascript library for creating dynamic & full-customizable modal dialogs.
+</p>
 
 
-<div style="border-bottom: 1px solid #21262D;font-size:18px;margin-top:30px;padding-bottom:5px;">
-Features
-</div>
+## Features
+✔ Full-customizable styles
 
-✔ Full-customizable styles via parameters
+✔ Closes modal dialog on overlay click
 
-✔ Closes modal on overlay click
+✔ Closes modal dialog on pressing the ESC key
 
-✔ Closes modal on pressing the ESC key
+✔ Pressing TAB is working inside the modal.
 
-
-<div style="border-bottom: 1px solid #21262D;font-size:18px;margin-top:50px;padding-bottom:5px;">
-Installation
-</div>
-
-via npm
-
-`npm here`
-
-via yarn
-
-`yarn here`
+✔ Ultra lightweight - it's only ~9kb!
 
 
-<div style="border-bottom: 1px solid #21262D;font-size:18px;margin-top:50px;padding-bottom:5px;">
-Licensing
-</div>
+## Installation
 
-This project is licensed under <a href="https://opensource.org/licenses/MIT" rel="nofollow">MIT license</a>
+**via npm**
+```shell
+npm i frostify-modal
+```
+
+**via yarn**
+```shell
+yarn add 
+```
+
+**via CDN direct link**
+```html
+
+```
+
+
+## Example usage
+
+
+## Licensing
+This project is licensed under [MIT license](https://opensource.org/licenses/MIT).
+
+
+
+## Created and maintained by
+
+Konrad Sroga – [@ksroga](https://github.com/ksroga) 🇵🇱
