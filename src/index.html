@@ -9,12 +9,20 @@
     <link rel="stylesheet" href="css/FrostModals.min.css">
 </head>
 <body>
+    <button data-modal="testModal" data-modal-title="Test modal">Open modal</button>
+
+    <div class="fmodal-static" id="testModal">
+        Test
+    </div>
+
+
     <script src="js/FrostModals.min.js"></script>
 
     <script>
+        /*
         FrostifyModal.set({
             title: 'Testowe okno',
-            content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium ad amet, aut delectus deserunt doloremque eos\n' +
+            content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium ad amet, aut delectus deserunt doloremque eos' +
                 '    eum facere fuga minus mollitia nemo numquam obcaecati, omnis quod saepe sit, voluptate. Nihil!',
             onok: () => {},
             oncancel: () => {},
@@ -24,8 +32,9 @@
             labels: {
                 ok: 'Okej',
                 cancel: 'Anuluj'
-            }
+            },
         }).show();
+        */
     </script>
 </body>
 </html>

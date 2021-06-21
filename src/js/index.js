@@ -1,21 +1,35 @@
 class FrostifyModals {
 
+    /**
+     * FrostifyModals constructor.
+     */
     constructor() {
         this.preparedSettings = [];
         this.lastModalId = 0;
         this.config = this.prepareModalSettings();
+        this.bindAttributeModals();
     }
 
     setConfig() {
 
     }
 
+    /**
+     * Show modal.
+     * @returns {FrostifyModals}
+     */
     show()
     {
         document.body.appendChild(FrostifyModals.prepareModal(this.preparedSettings[this.lastModalId]));
         return this;
     }
 
+    /**
+     * Close modal.
+     * @param modalId Modal id.
+     * @param useCallback Close callback.
+     * @returns {FrostifyModals}
+     */
     close(modalId = null, useCallback = true)
     {
         modalId = modalId || this.preparedSettings[this.lastModalId].id;
@@ -35,6 +49,11 @@ class FrostifyModals {
         return this;
     }
 
+    /**
+     * Submit modal.
+     * @param modalId Modal id.
+     * @returns {FrostifyModals}
+     */
     submit(modalId = null)
     {
         modalId = modalId || this.preparedSettings[this.lastModalId].id;
@@ -53,6 +72,11 @@ class FrostifyModals {
         return this;
     }
 
+    /**
+     * Set modal settings.
+     * @param settings Settings object.
+     * @returns {FrostifyModals}
+     */
     set(settings)
     {
         this.lastModalId++;
@@ -60,6 +84,11 @@ class FrostifyModals {
         return this;
     }
 
+    /**
+     * Prepare modal object settings.
+     * @param settings Settings passed in set() method.
+     * @returns object Settings object with all possible keys.
+     */
     prepareModalSettings(settings = {})
     {
         return {
@@ -75,6 +104,7 @@ class FrostifyModals {
                 ok: settings.labels?.ok ?? 'Okay',
                 cancel: settings.labels?.cancel ?? 'Cancel',
             },
+            wrapperStyles: settings.wrapperStyles ?? {},
             containerStyles: settings.containerStyles ?? {},
             headerStyles: settings.headerStyles ?? {},
             bodyStyles: settings.bodyStyles ?? {},
@@ -83,6 +113,27 @@ class FrostifyModals {
         };
     }
 
+    /**
+     * Bind elements with data-modal attribute to open specified modal.
+     */
+    bindAttributeModals()
+    {
+        document.querySelectorAll('[data-modal]').forEach(element => {
+            element.onclick = () => {
+                let staticDiv = document.querySelector(`#${element.dataset.modal}`),
+                    modalContent = staticDiv ? staticDiv.innerHTML : element.dataset.modal;
+                this.set({
+                    title: element.dataset.modalTitle,
+                    content: modalContent,
+                }).show();
+            };
+        });
+    }
+
+    /**
+     * Destroy modal element.
+     * @param modalId Modal id.
+     */
     static closeModal(modalId)
     {
         let wrapper = document.querySelector(`.fmodal-wrapper[data-id="${modalId}"]`);
@@ -91,6 +142,11 @@ class FrostifyModals {
         setTimeout(() => wrapper.remove(), 250);
     }
 
+    /**
+     * Prepare modal as HTMLDivElement.
+     * @param settings Modal settings.
+     * @returns {HTMLDivElement} Prepared modal element.
+     */
     static prepareModal(settings)
     {
         let wrapper = document.createElement('div'),
@@ -103,7 +159,7 @@ class FrostifyModals {
             submitButton = document.createElement('button');
 
         closeButton.classList.add('fmodal-close');
-        closeButton.onclick = () => FrostModal.close(settings.id, false);
+        closeButton.onclick = () => FrostifyModal.close(settings.id, false);
         closeButton.innerText = 'X';
 
         header.classList.add('fmodal-header');
@@ -124,11 +180,11 @@ class FrostifyModals {
         }
 
         cancelButton.classList.add('fmodal-button', 'fmodal-cancel');
-        cancelButton.onclick = () => FrostModal.close(settings.id);
+        cancelButton.onclick = () => FrostifyModal.close(settings.id);
         cancelButton.innerHTML = settings.labels.cancel;
 
         submitButton.classList.add('fmodal-button', 'fmodal-accept');
-        submitButton.onclick = () => FrostModal.submit(settings.id);
+        submitButton.onclick = () => FrostifyModal.submit(settings.id);
         submitButton.innerHTML = settings.labels.ok;
         for (const [key, value] of Object.entries(settings.buttonsStyles)) {
             cancelButton.style[key] = value;
@@ -147,6 +203,8 @@ class FrostifyModals {
         }
 
         container.classList.add('fmodal-container');
+        container.setAttribute('aria-labelledby', settings.title);
+        container.setAttribute('aria-modal', 'true');
         container.appendChild(header);
         container.appendChild(content);
         container.appendChild(footer);
@@ -176,6 +234,10 @@ class FrostifyModals {
         return wrapper;
     }
 
+    /**
+     * Make modal draggable.
+     * @param container Modal container.
+     */
     static makeDraggable(container) {
         let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
         if (container.querySelector('.fmodal-header')) {
