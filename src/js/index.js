@@ -3,6 +3,11 @@ class FrostifyModals {
     constructor() {
         this.preparedSettings = [];
         this.lastModalId = 0;
+        this.config = this.prepareModalSettings();
+    }
+
+    setConfig() {
+
     }
 
     show()
@@ -55,7 +60,7 @@ class FrostifyModals {
         return this;
     }
 
-    prepareModalSettings(settings)
+    prepareModalSettings(settings = {})
     {
         return {
             id: this.lastModalId,
@@ -156,7 +161,11 @@ class FrostifyModals {
         wrapper.dataset.id = settings.id;
         wrapper.appendChild(container);
         if (settings.isClosable === true) {
-            wrapper.onclick = () => FrostifyModals.closeModal(settings.id);
+            wrapper.onclick = event => {
+                if (event.path[0] === wrapper) {
+                    FrostifyModals.closeModal(settings.id);
+                }
+            };
             document.onkeydown = event => {
                 if (event.key === 'Escape') {
                     FrostifyModals.closeModal(settings.id);

@@ -45,7 +45,23 @@ yarn add
 
 
 ## Example usage
-
+```javascript
+FrostifyModal.set({
+    title: 'Modal title',
+    content: 'Text content',
+    onok: () => {
+        alert('Clicked ok button');
+        return false; // do not close modal
+    },
+    oncancel: () => {
+        alert('Clicked cancel button');
+    },
+    labels: {
+        ok: 'Okay!',
+        cancel: 'Cancel'
+    }
+}).show();
+```
 
 ## Licensing
 This project is licensed under [MIT license](https://opensource.org/licenses/MIT).
