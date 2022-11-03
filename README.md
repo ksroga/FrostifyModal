@@ -33,16 +33,6 @@ Ultra lightweight, dependency-free javascript library for creating dynamic & ful
 npm i frostify-modal
 ```
 
-**via yarn**
-```shell
-yarn add 
-```
-
-**via CDN direct link**
-```html
-
-```
-
 
 ## Usage
 Example usage:
